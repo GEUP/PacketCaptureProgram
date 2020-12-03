@@ -66,7 +66,8 @@ int main(char argc, char* argv[])
             len = recvfrom(sock, buf, BUF_LEN, 0, NULL, NULL);
             //패킷 수집
             orignStorePacket(buf, len, idx);
-            packetCategory(buf, len, idx++);
+            packetCategory(buf, len, idx);
+            idx++;
             listNum = idx;
 
          }
@@ -285,10 +286,7 @@ void packetCategory(unsigned char* data, int len, const int idx) {
    ipheadelen = data[14] & (0x0f);
    t = 14 + ipheadelen * 4;
    char str[BUF_LEN];
-   if ((int)data[12] != 8) {
-      printf("%7d|%7d|it is not IPv4\n", idx, len);
-      return;
-   }
+   
    //출력, 사용은 16진수 %02x
    //ethernet
    //data[0] ~ data[13] : ethernet 정보 (14byte)
@@ -300,6 +298,14 @@ void packetCategory(unsigned char* data, int len, const int idx) {
    //data[25] ~ data[28] : 발신지 ip주소
    //data[29] ~ data[33] : 수신지 ip주소
    struct ipv4hdr* ipP = (struct ipv4hdr*)malloc(sizeof(struct ipv4hdr));
+   if ((int)data[12] != 8) {
+      printf("%7d|%7d|it is not IPv4\n", idx, len);
+      packetList[idx].packet = ipP;
+      packetList[idx].packetType = -1;
+      packetList[idx].len = len;
+      printSummary(&packetList[idx], idx, 0);
+      return;
+   }
    ipP->ipheaderlen = ipheadelen;
    ipP->protocolType = data[23];
    for (int i = 0; i < 4; i++) {
@@ -439,7 +445,7 @@ void packetCategory(unsigned char* data, int len, const int idx) {
    }
    default:
    {
-      packetList[idx].packet = NULL;
+      packetList[idx].packet = ipP;
       packetList[idx].packetType = -1;
       packetList[idx].len = len;
       printSummary(&packetList[idx], idx, 0);
