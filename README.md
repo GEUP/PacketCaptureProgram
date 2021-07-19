@@ -48,8 +48,25 @@ PacketCaptureProgram using C Standard Library on Linux
 
 
 
+### 4. 실행 방법
+------------------------------
+
+1. sudo ./packetcapture
+
+2. 캡쳐시작 (y/n) :  y
+
+3. 웹페이지 방문 (http://www.kpu.ac.kr/index.do?sso=ok) 
+
+4. 별도의 다른 터미널에서 다음 명령어 수행
+    - ping google.com
+    - nslookup kpu.ac.kr
+
+5. ctrl + c 입력 - 패킷 수집 종료
+
+6. 패킷 
+
  
-### 4. 실행 화면
+### 5. 실행 화면
 ------------------------------
 
 # 시작 화면
