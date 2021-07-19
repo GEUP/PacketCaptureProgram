@@ -63,7 +63,7 @@ PacketCaptureProgram using C Standard Library on Linux
 
 5. ctrl + c 입력 - 패킷 수집 종료
 
-6. 패킷 
+6. 패킷 검색
 
  
 ### 5. 실행 화면
